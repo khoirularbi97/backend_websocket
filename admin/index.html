@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard E-Parking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="flex bg-gray-100">
+
+    <!-- Sidebar -->
+    <aside class="w-64 min-h-screen bg-blue-700 text-white p-5">
+        <h2 class="text-2xl font-bold flex items-center mb-5">
+            <i data-lucide="parking-circle" class="w-6 h-6 mr-2"></i> E-Parking
+        </h2>
+        <nav>
+            <ul>
+                <li class="mb-3">
+                    <a href="#" class="flex items-center p-3 rounded-md hover:bg-blue-800">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                        <span class="ml-3">Dashboard</span>
+                    </a>
+                </li>
+                <li class="mb-3">
+                    <a href="#" class="flex items-center p-3 rounded-md hover:bg-blue-800">
+                        <i data-lucide="credit-card" class="w-5 h-5"></i>
+                        <span class="ml-3">Transaksi</span>
+                    </a>
+                </li>
+                <li class="mb-3">
+                    <a href="#" class="flex items-center p-3 rounded-md hover:bg-blue-800">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                        <span class="ml-3">Pengaturan</span>
+                    </a>
+                </li>
+                <li class="mt-6">
+                    <a href="#" class="flex items-center p-3 bg-blue-800 rounded-md hover:bg-blue-900">
+                        <i data-lucide="user-plus" class="w-5 h-5"></i>
+                        <span class="ml-3">Registrasi</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+        
+    
+
+        <!-- Dashboard Content -->
+        <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white shadow-md rounded-lg p-4 flex items-center">
+                <i data-lucide="users" class="w-10 h-10 text-blue-500 mr-4"></i>
+                <div>
+                    <h3 class="text-gray-500">Jumlah Member</h3>
+                    <p class="text-2xl font-bold">2</p>
+                </div>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-4 flex items-center">
+                <i data-lucide="shield-check" class="w-10 h-10 text-green-500 mr-4"></i>
+                <div>
+                    <h3 class="text-gray-500">Jumlah Admin</h3>
+                    <p class="text-2xl font-bold">1</p>
+                </div>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-4 flex items-center">
+                <i data-lucide="credit-card" class="w-10 h-10 text-yellow-500 mr-4"></i>
+                <div>
+                    <h3 class="text-gray-500">Data Transaksi Kredit</h3>
+                    <p class="text-2xl font-bold">2</p>
+                </div>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-4 flex items-center">
+                <i data-lucide="banknote" class="w-10 h-10 text-red-500 mr-4"></i>
+                <div>
+                    <h3 class="text-gray-500">Data Transaksi Debit</h3>
+                    <p class="text-2xl font-bold">3</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table & Chart -->
+        <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- Table -->
+            <div class="bg-white shadow-md rounded-lg p-4">
+                <h3 class="text-lg font-semibold mb-4">Top Up Saldo</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2">UID</th>
+                            <th class="p-2">Nama</th>
+                            <th class="p-2">Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">783492182007</td>
+                            <td class="p-2">Dio Toar</td>
+                            <td class="p-2">Rp 39.000</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2">1061221907742</td>
+                            <td class="p-2">Gladys</td>
+                            <td class="p-2">Rp 25.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Chart Placeholder -->
+            <div class="bg-white shadow-md rounded-lg p-4">
+                <h3 class="text-lg font-semibold mb-4">Data Transaksi</h3>
+                <div class="flex items-center justify-center h-40">
+                    <p class="text-gray-500">Grafik transaksi akan ditampilkan di sini</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            let title = document.getElementById("sidebar-title");
+
+            if (sidebar.classList.contains("w-64")) {
+                sidebar.classList.remove("w-64");
+                sidebar.classList.add("w-16");
+                title.style.display = "none";
+            } else {
+                sidebar.classList.remove("w-16");
+                sidebar.classList.add("w-64");
+                title.style.display = "block";
+            }
+        }
+
+        function toggleDropdown() {
+            let dropdown = document.getElementById("dropdown");
+            dropdown.classList.toggle("hidden");
+        }
+    </script>
+    </script>
+
+</body>
+</html>

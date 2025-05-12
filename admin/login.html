@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - E-Parking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+
+    <div class="w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
+            <i data-lucide="log-in" class="w-6 h-6 inline-block"></i> Login E-Parking
+        </h2>
+
+        <form>
+            <!-- Email -->
+            <div class="mb-4">
+                <label class="block text-gray-700 dark:text-gray-300">Email</label>
+                <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-md p-2">
+                    <i data-lucide="mail" class="w-5 h-5 text-gray-500 dark:text-gray-400"></i>
+                    <input type="email" class="w-full ml-2 bg-transparent focus:outline-none" placeholder="Masukkan email" required>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+                <label class="block text-gray-700 dark:text-gray-300">Password</label>
+                <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-md p-2">
+                    <i data-lucide="lock" class="w-5 h-5 text-gray-500 dark:text-gray-400"></i>
+                    <input type="password" class="w-full ml-2 bg-transparent focus:outline-none" placeholder="Masukkan password" required>
+                </div>
+            </div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="flex justify-between items-center text-sm mb-4">
+                <label class="flex items-center">
+                    <input type="checkbox" class="mr-2">
+                    <span class="text-gray-700 dark:text-gray-300">Ingat saya</span>
+                </label>
+                <a href="#" class="text-blue-500 hover:underline">Lupa Password?</a>
+            </div>
+
+            <!-- Tombol Login -->
+            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-md transition">
+                <i data-lucide="log-in" class="w-5 h-5 inline-block mr-2"></i> Login
+            </button>
+        </form>
+
+        <!-- Garis pemisah -->
+        <div class="flex items-center my-4">
+            <div class="flex-grow border-t border-gray-300"></div>
+            <span class="px-2 text-gray-500">atau</span>
+            <div class="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <!-- Login dengan Google -->
+        <button class="w-full flex items-center justify-center bg-red-600 hover:bg-red-700 text-white p-3 rounded-md transition">
+            <i data-lucide="circle" class="w-5 h-5 mr-2"></i> Login dengan Google
+        </button>
+
+        <!-- Register Link -->
+        <p class="text-center text-gray-600 dark:text-gray-300 mt-4">
+            Belum punya akun? <a href="#" class="text-blue-500 hover:underline">Daftar Sekarang</a>
+        </p>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>
