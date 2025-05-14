@@ -79,7 +79,7 @@ function saveBase64Image(base64, filePath) {
 // }
 
 
-
+const tempData = {};
 
 const timestamp = new Date().toISOString()
 // WebSocket Connection Handler
@@ -99,6 +99,7 @@ wss.on('connection', ws => {
         // NFC Handling
         if (data.type === "nfc") {
             console.log("UID NFC:",data.uid);
+            const uid = data.uid;
            
 
             db.query('SELECT * FROM users WHERE uid = ?', [data.uid], (err,results) => {
@@ -107,19 +108,14 @@ wss.on('connection', ws => {
                     return;
                 }
                 if (results.length > 0) {
-
-                          db.query('INSERT INTO parkir_masuks (uid, status) VALUES (?, ?)', 
-                            [data.uid, 'aktif'], (err) => {
-                                if (err) return console.error(' Log gagal:', err);
-                               
-                                ws.uid = data.uid;
-                                console.log(`UID tersimpan: ${ws.uid}`);
                             
-
-                                console.log(` gate dibuka.`);
-                                ws.send("open_gate");
-                            });
-                            // Simpan uid ke objek koneksi ws (hanya satu kali saat pertama terima)
+                                // Simpan data sementara
+                                tempData[uid] = {
+                                uid
+                                };
+                                console.log(` Ambil gambar.`);
+                                ws.send("take_picture");
+                          
                             
                         
                     
@@ -138,6 +134,8 @@ wss.on('connection', ws => {
         // Gambar dari ESP32
       if (data.type === "image" && data.image) {
      console.log("📷 Gambar diterima dari ESP32");
+     const info = tempData[uid];
+     console.log(info);
 
             // Validasi panjang gambar
             if (!data.image || data.image.length < 1000) {
@@ -146,7 +144,7 @@ wss.on('connection', ws => {
             }
 
             // Simpan base64 image ke database
-            db.query('UPDATE parkir_masuks SET image_base64 = ? WHERE uid = ?', [data.image, ws.uid], (err, updateResult) => {
+            db.query('INSERT INTO parkir_masuks (uid, image_base64, status) VALUES (?, ?, ?)', [info.uid, data.image, "aktif"], (err, updateResult) => {
                              if (err) return console.error('❌ Gagal simpan gambar:', err);
                 console.log('✅ Gambar disimpan ke DB, ID:', updateResult);
             });

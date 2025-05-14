@@ -2,7 +2,7 @@
 const fs = require('fs');
 const WebSocket = require('ws');
 
-const ws = new WebSocket('ws://localhost:5000');
+const ws = new WebSocket('wss://scurebot.cloud/ws/');
 
 ws.on('open', () => {
   console.log('Terhubung ke server');
