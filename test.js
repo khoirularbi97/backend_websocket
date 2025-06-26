@@ -10,10 +10,10 @@ const { spawn } = require('child_process');
 // Koneksi database MySQL
 const db = mysql.createConnection({
     host: '127.0.0.1',
-    port: 3307,
+    port: 3306,
     user: 'root',
     password: '',
-    database: 'smart_parking'
+    database: 'iot_parking'
 });
 
 db.connect((err) => {
@@ -25,7 +25,7 @@ db.connect((err) => {
 });
 
 const wss = new WebSocket.Server({ port: 5000 });
-console.log("WebSocket Server berjalan di port 8080");
+console.log("WebSocket Server berjalan di port 5000");
 
 // Menyimpan base64 image ke file
 function saveBase64Image(base64, filePath) {
@@ -134,23 +134,59 @@ wss.on('connection', ws => {
         // Gambar dari ESP32
       if (data.type === "image" && data.image) {
      console.log("📷 Gambar diterima dari ESP32");
-     const info = tempData[uid];
+     const info =   "234566" ;/*tempData[uid];*/
      console.log(info);
 
-            // Validasi panjang gambar
             if (!data.image || data.image.length < 1000) {
                 console.warn("⚠ Gambar terlalu kecil, diabaikan.");
                 return;
             }
+        const timestamp = Date.now();
+                    const imagePath = path.join(__dirname, `uploads/plate_${timestamp}.jpg`);
+                    saveBase64Image(data.image, imagePath);
 
-            // Simpan base64 image ke database
-            db.query('INSERT INTO parkir_masuks (uid, image_base64, status) VALUES (?, ?, ?)', [info.uid, data.image, "aktif"], (err, updateResult) => {
-                             if (err) return console.error('❌ Gagal simpan gambar:', err);
-                console.log('✅ Gambar disimpan ke DB, ID:', updateResult);
-            });
-            
+                    console.log("🧠 Memproses gambar dengan ANPR + YOLO...");
+
+                    // Jalankan deteksi ANPR + YOLO (script anpr.py harus terhubung dengan gambar lokal)
+                    const anpr = spawn('python', ['anpr.py', '--weights', 'yolov5s.pt', '--source', imagePath]);
+                    let stdoutBuffer = '';
+                    let anprOutput = '';
+                    anpr.stdout.on('data', (data) => {
+                  anprOutput += data.toString();
+                });
+                
+                anpr.stderr.on('data', (err) => {
+                  console.error("❌ Python error:", err.toString());
+                });
+      
+                anpr.on('close', () => {
+                                try {
+                                    let result = JSON.parse(stdoutBuffer.trim());
+                                    if (typeof result === 'string') result = JSON.parse(result);
+                                    result.plate = result.plate.replace(/\s+/g, '').toUpperCase();
+                                    const { plate, jenis, warna } = result;
+                        // Validasi panjang gambar
+                    
+
+                        // Simpan base64 image ke database
+                        db.query('INSERT INTO parkir_masuks (uid, plate, jenis_kendaraan, warna, image_base64, status) VALUES (?, ?, ?, ?, ?, ?)', [info.uid, plate, jenis, warna, data.image, "aktif"], (err, updateResult) => {
+                                        if (err) return console.error('❌ Gagal simpan gambar:', err);
+                            console.log('✅ Gambar disimpan ke DB, ID:', updateResult);
+                        });
+                        
+                        } catch (err) {
+                    console.error("❌ Gagal parsing output JSON dari Python:", err);
+                    ws.send(JSON.stringify({
+                        type: "gate_result",
+                        status: "error",
+                        message: "Gagal membaca hasil ANPR"
+                    }));
+                    }
+                    
+                });
 
          }
+
 
     });
 

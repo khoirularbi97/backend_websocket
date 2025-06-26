@@ -2,12 +2,12 @@
 const fs = require('fs');
 const WebSocket = require('ws');
 
-const ws = new WebSocket('wss://scurebot.cloud/ws/');
+const ws = new WebSocket('ws://localhost:5000');
 
 ws.on('open', () => {
   console.log('Terhubung ke server');
 
-  const imageBuffer = fs.readFileSync('IMG-20241007-WA0001-1.jpg');
+  const imageBuffer = fs.readFileSync('gambar.jpg');
   const base64 = imageBuffer.toString('base64');
 
   // Kirim gambar seperti dari ESP32
